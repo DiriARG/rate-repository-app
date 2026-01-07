@@ -1,7 +1,10 @@
 import { StyleSheet, View } from "react-native";
+import { Route, Routes, Navigate } from "react-router-native";
+
 import RepositoryList from "./RepositoryList";
 import AppBar from "./AppBar";
 import theme from "../theme";
+import SignIn from "./SignIn";
 
 const estilos = StyleSheet.create({
   container: {
@@ -15,7 +18,14 @@ const Main = () => {
   return (
     <View style={estilos.container}>
       <AppBar />
-      <RepositoryList />
+      <Routes>
+        <Route path="/" element={<RepositoryList />} />
+        <Route path="signin" element={<SignIn />} />
+
+        {/* Esta ruta se activará si el usuario intenta navegar a una ruta que no coincida con las rutas definidas previamente.
+        Manda al usuario a la lista de repositorios; el "replace" reemplaza la ruta errónea al historial de navegación, evitando que al hacer click al botón de "atrás", regresar a la página que no existe. */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </View>
   );
 };
