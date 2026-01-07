@@ -1,10 +1,9 @@
-import Constants from 'expo-constants';
 import { StyleSheet, View } from 'react-native';
 import RepositoryList from './RepositoryList';
+import AppBar from './AppBar';
 
 const estilos = StyleSheet.create({
   container: {
-    marginTop: Constants.statusBarHeight,
     flexGrow: 1,
     flexShrink: 1,
   },
@@ -13,6 +12,7 @@ const estilos = StyleSheet.create({
 const Main = () => {
   return (
     <View style={estilos.container}>
+      <AppBar />
       <RepositoryList />
     </View>
   );
