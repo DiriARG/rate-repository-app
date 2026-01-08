@@ -1,9 +1,15 @@
 import { View, StyleSheet, Pressable } from "react-native";
 import { Formik } from "formik";
+import * as yup from "yup";
 
 import FormikTextInput from "./FormikTextInput";
 import Text from "./Text";
 import theme from "../theme";
+
+const reglasDeValidacion = yup.object().shape({
+  usuario: yup.string().required("Username is required"),
+  contraseña: yup.string().required("Password is required"),
+});
 
 const estilos = StyleSheet.create({
   container: {
@@ -33,8 +39,13 @@ const SignIn = () => {
     /* Formik es el contenedor principal que maneja el estado del formulario.
     - initialValues (Obligatorio): Define los nombres de los campos y sus valores iniciales.
     - onSubmit (Obligatorio): Función que se dispara cuando el formulario es válido y se envía.
+    - validationSchema (Opcional): Define las reglas de validación con Yup que deben cumplirse antes de que se permita ejecutar el envío.
     */
-    <Formik initialValues={{ usuario: "", contraseña: "" }} onSubmit={onSubmit}>
+    <Formik
+      initialValues={{ usuario: "", contraseña: "" }}
+      onSubmit={onSubmit}
+      validationSchema={reglasDeValidacion}
+    >
       {/* Se utiliza el patrón "render prop" para extraer "handleSubmit" de Formik. 
       Esta función actúa como mediadora: valida el formulario (al hacer click en el "Pressable") y, si todo es correcto, ejecuta automáticamente la función "onSubmit" definida anteriormente. */}
       {({ handleSubmit }) => (
