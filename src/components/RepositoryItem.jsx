@@ -1,7 +1,7 @@
 import { View, Image, StyleSheet } from "react-native";
 import Text from "./Text";
 import theme from "../theme";
-import { formatearConteo } from "../utilidades";
+import formatearConteo from "../utils/formatearConteo"
 
 const estilos = StyleSheet.create({
   container: {
