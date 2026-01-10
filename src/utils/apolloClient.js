@@ -1,11 +1,36 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import Constants from 'expo-constants';
 
-const createApolloClient = () => {
+import { setContext } from '@apollo/client/link/context';
+
+/* "Constants.expoConfig.extra" es un objeto donde Expo almacena configuraciones personalizadas definidas en "app.config.js".
+En este caso se utiliza para acceder a una variable de entorno (.env) al código del cliente, ya que "process.env" no es accesible directamente en dispositivos móviles. */
+const { apolloUri } = Constants.expoConfig.extra;
+
+const httpLink = createHttpLink({
+  uri: apolloUri,
+});
+
+
+const createApolloClient = (authStorage) => {
+  const authLink = setContext(async (_, { headers }) => {
+    try {
+      const accessToken = await authStorage.getAccessToken();
+      return {
+        headers: {
+          ...headers,
+          authorization: accessToken ? `Bearer ${accessToken}` : '',
+        },
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        headers,
+      };
+    }
+  });
   return new ApolloClient({
-    /* "Constants.expoConfig.extra" es un objeto donde Expo almacena configuraciones personalizadas definidas en "app.config.js".
-    En este caso se utiliza para acceder a una variable de entorno (.env) al código del cliente, ya que "process.env" no es accesible directamente en dispositivos móviles. */
-    uri: Constants.expoConfig.extra.apolloUri,
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
 };
