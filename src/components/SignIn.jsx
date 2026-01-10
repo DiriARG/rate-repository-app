@@ -1,11 +1,12 @@
 import { View, StyleSheet, Pressable } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useNavigate } from "react-router-native";
 
 import FormikTextInput from "./FormikTextInput";
 import Text from "./Text";
 import theme from "../theme";
-import useSignIn from "../hooks/useSignIn"
+import useSignIn from "../hooks/useSignIn";
 
 const reglasDeValidacion = yup.object().shape({
   usuario: yup.string().required("Username is required"),
@@ -34,6 +35,7 @@ const estilos = StyleSheet.create({
 const SignIn = () => {
   // Se extrae la función "signIn" del hook personalizado.
   const [signIn] = useSignIn();
+  const navigate = useNavigate();
 
   const onSubmit = async (values) => {
     // Desestructuración de los valores que vienen del estado de Formik (deben coincidir con los de "initialValues").
@@ -41,12 +43,13 @@ const SignIn = () => {
 
     try {
       // Se llama a la función "signIn" del hook y se le pasa el objeto con los campos que espera la mutación GraphQL.
-      const { data } = await signIn({
+      await signIn({
         username: usuario,
         password: contraseña,
       });
 
-      console.log(data);
+      // Se redirecciona después de un login exitoso.
+      navigate("/");
     } catch (e) {
       console.log(e);
     }
