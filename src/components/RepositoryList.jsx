@@ -11,8 +11,10 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />
 
 const RepositoryList = () => {
+  // repositories = data.repositories.
   const { repositories } = useRepositories()
 
+  /* Por lo tanto si hay "data" se transforma la siguiente estructura: { repositories: { edges: [ { node: { ... } } ] } }, se convierte en un array plano: [ { ... }, { ... } ] mapeando "edges" y sustrayendo por cada "edge" un "node" que sería un repositorio. */
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
     : [];

@@ -1,25 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from "@apollo/client";
+import { OBTENER_REPOSITORIOS } from "../graphql/queries";
 
 const useRepositories = () => {
-  const [repositories, setRepositories] = useState();
-  const [loading, setLoading] = useState(false);
+  const { data, loading, error, refetch } = useQuery(OBTENER_REPOSITORIOS, {
+    // Devuelve datos de la caché primero y luego actualiza si los datos del servidor han cambiado.
+    fetchPolicy: "cache-and-network",
+  });
 
-  const fetchRepositories = async () => {
-    setLoading(true);
+  /* Se extrae el objeto "repositories" que tiene la siguiente estructura: { repositories: { edges: [ { node: { ... } } ] } }. */
+  const repositories = data?.repositories;
 
-    // Replace the IP address part with your own IP address!
-    const response = await fetch('http://192.168.0.158:5000/api/repositories');
-    const json = await response.json();
-
-    setLoading(false);
-    setRepositories(json);
-  };
-
-  useEffect(() => {
-    fetchRepositories();
-  }, []);
-
-  return { repositories, loading, refetch: fetchRepositories };
+  // Se devuelve la misma interfaz que antes tenía el hook.
+  return { repositories, loading, error, refetch };
 };
 
 export default useRepositories;
