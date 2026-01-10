@@ -13,3 +13,12 @@ export const OBTENER_REPOSITORIOS = gql`
   }
   ${CAMPOS_BASE_REPOSITORIO}
 `;
+
+export const OBTENER_USUARIO_ACTUAL = gql`
+  query Me {
+    me {
+      id
+      username
+    }
+  }
+`;

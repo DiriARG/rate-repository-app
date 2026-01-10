@@ -1,6 +1,10 @@
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import Constants from "expo-constants";
 import { Link } from "react-router-native";
+import { useQuery, useApolloClient } from "@apollo/client";
+
+import { OBTENER_USUARIO_ACTUAL } from "../graphql/queries";
+import useAuthStorage from "../hooks/useAuthStorage";
 
 const styles = StyleSheet.create({
   container: {
@@ -22,6 +26,19 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  // Se ejecuta la consulta para obtener al usuario; "data" se actualizará automáticamente cuando el estado del caché de Apollo cambie.
+  const { data } = useQuery(OBTENER_USUARIO_ACTUAL);
+  const authStorage = useAuthStorage();
+  const cliente = useApolloClient();
+
+  const cerrarSesion = async () => {
+    await authStorage.removeAccessToken();
+    await cliente.resetStore();
+  };
+
+  // Contiene el objeto del usuario si la sesión es válida o null si no está autenticado, permitiendo el renderizado condicional de las pestañas.
+  const usuarioAutenticado = data?.me;
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -36,9 +53,15 @@ const AppBar = () => {
           <Text style={styles.pestaña}>Repositories</Text>
         </Link>
 
-        <Link to="/signin" component={Pressable}>
-          <Text style={styles.pestaña}>Sign In</Text>
-        </Link>
+        {usuarioAutenticado ? (
+          <Pressable onPress={cerrarSesion}>
+            <Text style={styles.pestaña}>Sign out</Text>
+          </Pressable>
+        ) : (
+          <Link to="/signin" component={Pressable}>
+            <Text style={styles.pestaña}>Sign in</Text>
+          </Link>
+        )}
       </ScrollView>
     </View>
   );
