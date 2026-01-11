@@ -1,7 +1,7 @@
 import { View, Image, StyleSheet } from "react-native";
 import Text from "./Text";
 import theme from "../theme";
-import formatearConteo from "../utils/formatearConteo"
+import formatearConteo from "../utils/formatearConteo";
 
 const estilos = StyleSheet.create({
   container: {
@@ -45,10 +45,13 @@ const estilos = StyleSheet.create({
 
 /* Muestra una métrica individual del repo.
 - label: texto descriptivo (ej: "Estrellas").
-- valor: número que se formatea. */
-const EstadisticaDelRepo = ({ label, valor }) => (
+- valor: número que se formatea.
+- Ahora recibe testID para ubicar esta vista en las pruebas (Jest). */
+const EstadisticaDelRepo = ({ label, valor, testID }) => (
   <View style={estilos.itemEstadistica}>
-    <Text fontWeight="bold">{formatearConteo(valor)}</Text>
+    <Text testID={testID} fontWeight="bold">
+      {formatearConteo(valor)}
+    </Text>
     <Text color="secondary">{label}</Text>
   </View>
 );
@@ -63,22 +66,36 @@ const RepositoryItem = ({ repositorio }) => {
         />
 
         <View style={estilos.info}>
-          <Text fontWeight="bold" fontSize="subheading">
+          <Text testID="nombreCompleto" fontWeight="bold" fontSize="subheading">
             {repositorio.fullName}
           </Text>
-          <Text color="secondary">{repositorio.description}</Text>
-          <Text style={estilos.lenguaje}>{repositorio.language}</Text>
+          <Text testID="descripcion" color="secondary">
+            {repositorio.description}
+          </Text>
+          <Text testID="lenguaje" style={estilos.lenguaje}>
+            {repositorio.language}
+          </Text>
         </View>
       </View>
 
       <View style={estilos.estadisticas}>
         <EstadisticaDelRepo
+          testID="estrellas"
           label="Estrellas"
           valor={repositorio.stargazersCount}
         />
-        <EstadisticaDelRepo label="Forks" valor={repositorio.forksCount} />
-        <EstadisticaDelRepo label="Reseñas" valor={repositorio.reviewCount} />
         <EstadisticaDelRepo
+          testID="forks"
+          label="Forks"
+          valor={repositorio.forksCount}
+        />
+        <EstadisticaDelRepo
+          testID="reseñas"
+          label="Reseñas"
+          valor={repositorio.reviewCount}
+        />
+        <EstadisticaDelRepo
+          testID="calificacionPromedio"
           label="Calificación promedio"
           valor={repositorio.ratingAverage}
         />
