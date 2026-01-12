@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import Constants from "expo-constants";
-import { Link } from "react-router-native";
+import { Link, useNavigate } from "react-router-native";
 import { useQuery, useApolloClient } from "@apollo/client";
 
 import { OBTENER_USUARIO_ACTUAL } from "../graphql/queries";
@@ -30,10 +30,14 @@ const AppBar = () => {
   const { data } = useQuery(OBTENER_USUARIO_ACTUAL);
   const authStorage = useAuthStorage();
   const cliente = useApolloClient();
+  
+  const navigate = useNavigate()
 
   const cerrarSesion = async () => {
     await authStorage.removeAccessToken();
     await cliente.resetStore();
+    // Para que al salir el usuario sea redirijido a la pestaña de todos los repositorios.
+    navigate("/")
   };
 
   // Contiene el objeto del usuario si la sesión es válida o null si no está autenticado, permitiendo el renderizado condicional de las pestañas.
@@ -54,9 +58,15 @@ const AppBar = () => {
         </Link>
 
         {usuarioAutenticado ? (
-          <Pressable onPress={cerrarSesion}>
-            <Text style={styles.pestaña}>Sign out</Text>
-          </Pressable>
+          <>
+            <Link to="/crear-reseña" component={Pressable}>
+              <Text style={styles.pestaña}>Create a review</Text>
+            </Link>
+
+            <Pressable onPress={cerrarSesion}>
+              <Text style={styles.pestaña}>Sign out</Text>
+            </Pressable>
+          </>
         ) : (
           <Link to="/signin" component={Pressable}>
             <Text style={styles.pestaña}>Sign in</Text>

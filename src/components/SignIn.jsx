@@ -1,17 +1,12 @@
 import { View, StyleSheet, Pressable } from "react-native";
 import { Formik } from "formik";
-import * as yup from "yup";
 import { useNavigate } from "react-router-native";
 
 import FormikTextInput from "./FormikTextInput";
 import Text from "./Text";
 import theme from "../theme";
 import useSignIn from "../hooks/useSignIn";
-
-const reglasDeValidacion = yup.object().shape({
-  usuario: yup.string().required("Username is required"),
-  contraseña: yup.string().required("Password is required"),
-});
+import { esquemaValidacionSignIn } from "../utils/esquemaDeValidaciones";
 
 const estilos = StyleSheet.create({
   container: {
@@ -29,6 +24,7 @@ const estilos = StyleSheet.create({
   },
   textoDelBoton: {
     color: "white",
+    fontWeight: theme.fontWeights.bold,
   },
 });
 
@@ -48,7 +44,7 @@ export const SignInContainer = ({ onSubmit }) => {
     <Formik
       initialValues={{ usuario: "", contraseña: "" }}
       onSubmit={onSubmit}
-      validationSchema={reglasDeValidacion}
+      validationSchema={esquemaValidacionSignIn}
     >
       {/* Se utiliza el patrón "render prop" para extraer "handleSubmit" de Formik. 
       Esta función actúa como mediadora: valida el formulario (al hacer click en el "Pressable") y, si todo es correcto, ejecuta automáticamente la función "onSubmit" definida anteriormente. */}
@@ -75,9 +71,7 @@ export const SignInContainer = ({ onSubmit }) => {
             onPress={handleSubmit}
             style={estilos.boton}
           >
-            <Text fontWeight="bold" style={estilos.textoDelBoton}>
-              Sign in
-            </Text>
+            <Text style={estilos.textoDelBoton}>Sign in</Text>
           </Pressable>
         </View>
       )}
@@ -113,7 +107,7 @@ const SignIn = () => {
       console.log(e);
     }
   };
-  
+
   // SignIn solo renderiza el componente puro y le pasa la lógica real como prop.
   return <SignInContainer onSubmit={onSubmit} />;
 };

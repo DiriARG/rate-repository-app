@@ -7,3 +7,23 @@ export const AUTENTICAR = gql`
     }
   }
 `;
+
+export const CREAR_RESENIA = gql`
+  mutation CrearResenia(
+    $nombrePropietario: String!
+    $nombreRepositorio: String!
+    $calificacion: Int!
+    $texto: String
+  ) {
+    createReview(
+      review: {
+        ownerName: $nombrePropietario
+        repositoryName: $nombreRepositorio
+        rating: $calificacion
+        text: $texto
+      }
+    ) {
+      repositoryId
+    }
+  }
+`;

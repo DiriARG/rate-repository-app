@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.main,
   },
   error: {
-    borderColor: "#d73a4a",
+    borderColor: theme.colors.error,
   },
 });
 
