@@ -56,7 +56,7 @@ const EstadisticaDelRepo = ({ label, valor, testID }) => (
   </View>
 );
 
-const RepositoryItem = ({ repositorio }) => {
+const RepositoryItem = ({ repositorio, children }) => {
   return (
     <View style={estilos.container}>
       <View style={estilos.header}>
@@ -100,6 +100,10 @@ const RepositoryItem = ({ repositorio }) => {
           valor={repositorio.ratingAverage}
         />
       </View>
+      {/* Se utiliza "children" para implementar el patrón de composición. 
+        Esto permite que el componente actúe como un contenedor flexible, pudiendo inyectar contenido adicional (como botones o formularios) desde componentes padres sin modificar la estructura interna de RepositoryItem.
+        Se usa el nombre "children" porque es una "palabra reservada" de props, React trata a children de forma especial, simplemente la inyecta automáticamente sin necesitar pasarla como un prop normal. */}
+      {children}
     </View>
   );
 };

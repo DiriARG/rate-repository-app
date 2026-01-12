@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client';
-import { CAMPOS_BASE_REPOSITORIO } from './fragments';
+import { gql } from "@apollo/client";
+import { CAMPOS_BASE_REPOSITORIO, CAMPOS_RESENIA } from "./fragments";
 
 export const OBTENER_REPOSITORIOS = gql`
   query ObtenerRepositorios {
@@ -28,7 +28,15 @@ export const OBTENER_REPOSITORIO = gql`
     repository(id: $id) {
       ...CamposBaseRepositorio
       url
+      reviews {
+        edges {
+          node {
+            ...CamposResenia
+          }
+        }
+      }
     }
   }
   ${CAMPOS_BASE_REPOSITORIO}
+  ${CAMPOS_RESENIA}
 `;

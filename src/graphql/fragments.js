@@ -13,3 +13,16 @@ export const CAMPOS_BASE_REPOSITORIO = gql`
     ownerAvatarUrl
   }
 `;
+
+export const CAMPOS_RESENIA = gql`
+  fragment CamposResenia on Review {
+    id
+    text
+    rating
+    createdAt
+    user {
+      id
+      username
+    }
+  }
+`;
