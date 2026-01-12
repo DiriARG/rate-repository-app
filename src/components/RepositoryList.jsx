@@ -1,4 +1,6 @@
-import { FlatList, View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet, Pressable } from "react-native";
+import { useNavigate } from "react-router-native";
+
 import RepositoryItem from "./RepositoryItem";
 import useRepositories from "../hooks/useRepositories";
 
@@ -11,6 +13,8 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 export const RepositoryListContainer = ({ repositories }) => {
+  const navigate = useNavigate();
+
   // Por lo tanto si hay "data" se transforma la siguiente estructura: { repositories: { edges: [ { node: { ... } } ] } }, se convierte en un array plano: [ { ... }, { ... } ] mapeando "edges" y sustrayendo por cada "edge" un "node" que sería un repositorio.
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
@@ -22,8 +26,11 @@ export const RepositoryListContainer = ({ repositories }) => {
       data={repositoryNodes}
       // "renderItem" es una función que FlatList ejecuta por cada elemento del array "repositoryNodes"; Se extrae {item}, que es el objeto con la info del repositorio actual en cada iteración.
       renderItem={({ item }) => (
-        // Se envía la info del repo a traves de la prop "repositorio".
-        <RepositoryItem repositorio={item} />
+        // Ahora cada item (cada repo) es clickeable.
+        <Pressable onPress={() => navigate(`/repositorio/${item.id}`)}>
+          {/* Se envía la info del repo a traves de la prop "repositorio". */}
+          <RepositoryItem repositorio={item} />
+        </Pressable>
       )}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={ItemSeparator}

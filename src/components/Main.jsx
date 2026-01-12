@@ -5,6 +5,7 @@ import RepositoryList from "./RepositoryList";
 import AppBar from "./AppBar";
 import theme from "../theme";
 import SignIn from "./SignIn";
+import Repositorio from "./Repositorio"
 
 const estilos = StyleSheet.create({
   container: {
@@ -21,6 +22,7 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<RepositoryList />} />
         <Route path="signin" element={<SignIn />} />
+        <Route path="/repositorio/:id" element={<Repositorio />} />
 
         {/* Esta ruta se activará si el usuario intenta navegar a una ruta que no coincida con las rutas definidas previamente.
         Manda al usuario a la lista de repositorios; el "replace" reemplaza la ruta errónea al historial de navegación, evitando que al hacer click al botón de "atrás", regresar a la página que no existe. */}
