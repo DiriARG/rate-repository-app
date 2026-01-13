@@ -1,8 +1,10 @@
 import { useQuery } from "@apollo/client";
 import { OBTENER_REPOSITORIOS } from "../graphql/queries";
 
-const useRepositories = () => {
+const useRepositories = (variables) => {
   const { data, loading, error, refetch } = useQuery(OBTENER_REPOSITORIOS, {
+    // Se pasa el objeto de variables completo (que contiene "ordenarPor" y "direccion").
+    variables,
     // Devuelve datos de la caché primero y luego actualiza si los datos del servidor han cambiado.
     fetchPolicy: "cache-and-network",
   });

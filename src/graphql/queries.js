@@ -2,8 +2,14 @@ import { gql } from "@apollo/client";
 import { CAMPOS_BASE_REPOSITORIO, CAMPOS_RESENIA } from "./fragments";
 
 export const OBTENER_REPOSITORIOS = gql`
-  query ObtenerRepositorios {
-    repositories {
+  query ObtenerRepositorios(
+    $ordenarPor: AllRepositoriesOrderBy
+    $direccion: OrderDirection
+  ) {
+    repositories(
+      orderBy: $ordenarPor
+      orderDirection: $direccion
+    ) {
       edges {
         node {
           ...CamposBaseRepositorio
