@@ -27,3 +27,12 @@ export const CREAR_RESENIA = gql`
     }
   }
 `;
+
+export const CREAR_USUARIO = gql`
+  mutation CrearUsuario($usuario: CreateUserInput) {
+    createUser(user: $usuario) {
+      id
+      username
+    }
+  }
+`;

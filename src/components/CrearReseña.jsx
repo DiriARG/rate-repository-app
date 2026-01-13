@@ -18,7 +18,7 @@ const CrearReseña = () => {
   const navigate = useNavigate();
   const [createReview] = useMutation(CREAR_RESENIA);
 
-  const onSubmit = async (valores) => {
+  const alEnviar = async (valores) => {
     const { nombrePropietario, nombreRepositorio, calificacion, texto } =
       valores;
 
@@ -44,7 +44,7 @@ const CrearReseña = () => {
   return (
     <Formik
       initialValues={valoresIniciales}
-      onSubmit={onSubmit}
+      onSubmit={alEnviar}
       validationSchema={esquemaValidacionReseña}
     >
       {({ handleSubmit }) => <FormularioReseña onSubmit={handleSubmit} />}

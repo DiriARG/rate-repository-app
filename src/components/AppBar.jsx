@@ -30,14 +30,14 @@ const AppBar = () => {
   const { data } = useQuery(OBTENER_USUARIO_ACTUAL);
   const authStorage = useAuthStorage();
   const cliente = useApolloClient();
-  
-  const navigate = useNavigate()
+
+  const navigate = useNavigate();
 
   const cerrarSesion = async () => {
     await authStorage.removeAccessToken();
     await cliente.resetStore();
     // Para que al salir el usuario sea redirijido a la pestaña de todos los repositorios.
-    navigate("/")
+    navigate("/");
   };
 
   // Contiene el objeto del usuario si la sesión es válida o null si no está autenticado, permitiendo el renderizado condicional de las pestañas.
@@ -68,9 +68,15 @@ const AppBar = () => {
             </Pressable>
           </>
         ) : (
-          <Link to="/signin" component={Pressable}>
-            <Text style={styles.pestaña}>Sign in</Text>
-          </Link>
+          <>
+            <Link to="/signin" component={Pressable}>
+              <Text style={styles.pestaña}>Sign in</Text>
+            </Link>
+
+            <Link to="/registrarse" component={Pressable}>
+              <Text style={styles.pestaña}>Sign up</Text>
+            </Link>
+          </>
         )}
       </ScrollView>
     </View>
