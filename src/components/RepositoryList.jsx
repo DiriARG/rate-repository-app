@@ -120,8 +120,8 @@ export class RepositoryListContainer extends React.Component {
   };
 
   render() {
-    // Se obtiene los repositorios y la función de navegación de los props.
-    const { repositories, navigate } = this.props;
+    // Se obtiene los repositorios, la función de navegación y "onEndReach" de los props.
+    const { repositories, navigate, onEndReach } = this.props;
 
     // Por lo tanto si hay "data" se transforma la siguiente estructura: { repositories: { edges: [ { node: { ... } } ] } }, se convierte en un array plano: [ { ... }, { ... } ] mapeando "edges" y sustrayendo por cada "edge" un "node" que sería un repositorio.
     const repositoryNodes = repositories
@@ -143,6 +143,10 @@ export class RepositoryListContainer extends React.Component {
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={ItemSeparator}
         ListHeaderComponent={this.renderHeader}
+        // Se activa cuando el usuario llega al final.
+        onEndReached={onEndReach}
+        // 0.5 significa que se dispara cuando falta la mitad de la pantalla para llegar al final.
+        onEndReachedThreshold={0.5}
       />
     );
   }
@@ -164,12 +168,18 @@ const RepositoryList = () => {
 
   /* repositories = data.repositories. 
   Petición a la bd. Se vuelve a ejecutar automáticamente cada vez que cambian las variables de ordenación o la palabra clave filtrada. */
-  const { repositories } = useRepositories({
+  const { repositories, fetchMore } = useRepositories({
+    // Cantidad de elementos por página.
+    first: 3,
     ordenarPor: orden.ordenarPor,
     direccion: orden.direccion,
     palabraClave: busquedaRetrasada
   });
 
+  // Función que se ejecuta al llegar al final de la FlatList.
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   return (
     <RepositoryListContainer
@@ -179,6 +189,7 @@ const RepositoryList = () => {
       setOrdenSeleccionado={setOrdenSeleccionado}
       busqueda={busqueda}
       setBusqueda={setBusqueda}
+      onEndReach={onEndReach}
     />
   );
 };

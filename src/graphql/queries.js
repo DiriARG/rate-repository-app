@@ -6,16 +6,26 @@ export const OBTENER_REPOSITORIOS = gql`
     $ordenarPor: AllRepositoriesOrderBy
     $direccion: OrderDirection
     $palabraClave: String
+    $first: Int
+    $after: String
   ) {
     repositories(
       orderBy: $ordenarPor
       orderDirection: $direccion
       searchKeyword: $palabraClave
+      first: $first
+      after: $after
     ) {
       edges {
         node {
           ...CamposBaseRepositorio
         }
+        cursor
+      }
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
       }
     }
   }
