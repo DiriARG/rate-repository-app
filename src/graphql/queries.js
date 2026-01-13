@@ -42,15 +42,21 @@ export const OBTENER_USUARIO_ACTUAL = gql`
 `;
 
 export const OBTENER_REPOSITORIO = gql`
-  query ObtenerRepositorio($id: ID!) {
+  query ObtenerRepositorio($id: ID!, $cantidad: Int, $desdeDonde: String) {
     repository(id: $id) {
       ...CamposBaseRepositorio
       url
-      reviews {
+      reviews(first: $cantidad, after: $desdeDonde) {
         edges {
           node {
             ...CamposResenia
           }
+          cursor
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
         }
       }
     }

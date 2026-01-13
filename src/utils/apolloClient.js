@@ -18,6 +18,14 @@ const cache = new InMemoryCache({
         repositories: relayStylePagination(),
       },
     },
+  /* Configura la caché para que las reseñas (reviews) no se sobrescriban. 
+  "relayStylePagination" le indica a Apollo que cuando pida una nueva página de reseñas, debe "concatenar" los nuevos resultados al final de los existentes en la memoria. 
+  Esto es lo que permite que el usuario haga scroll hacia abajo y siga viendo las reseñas anteriores junto con las nuevas. */
+    Repository: {
+      fields: {
+        reviews: relayStylePagination(),
+      },
+    },
   },
 });
 

@@ -96,7 +96,9 @@ const SeparadorDeLista = () => <View style={estilos.separador} />;
 const Repositorio = () => {
   // Se obtiene el ID del parámetro de la ruta /repositorio/:id.
   const { id } = useParams();
-  const { repositorio, loading, error } = useRepositorio(id);
+  /* Se invoca el hook personalizado, el 1er arg se asigna al parámetro "id" del hook.
+  2do arg se asigna al parámetro "cantidad" del hook, en este caso pedimos 5 reseñas. */
+  const { repositorio, loading, error, fetchMore } = useRepositorio(id, 5);
 
   if (loading) return <Text>Cargando...</Text>;
   // Se dispara cuando la comunicación con el servidor falló ej: no hay internet, el server GraphQL esta caído, etc.
@@ -106,7 +108,12 @@ const Repositorio = () => {
   if (!repositorio) return null;
 
   const reviews = repositorio.reviews.edges.map((edge) => edge.node);
-
+  
+  // Función de la teoría.
+  const onEndReach = () => {
+    fetchMore();
+  }
+  
   return (
     <FlatList
       data={reviews}
@@ -117,6 +124,8 @@ const Repositorio = () => {
       ListHeaderComponent: Renderiza un componente al inicio de la lista. Se utiliza aquí para que la información del repositorio y el botón de GitHub formen parte de la misma lista desplazable. 
       Esto evita errores de anidamiento de componentes con scroll (como poner un FlatList dentro de un ScrollView) y asegura que todo el contenido se desplace de forma fluida y coordinada. */
       ListHeaderComponent={() => <RepositoryInfo repository={repositorio} />}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };

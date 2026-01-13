@@ -170,7 +170,7 @@ const RepositoryList = () => {
   Petición a la bd. Se vuelve a ejecutar automáticamente cada vez que cambian las variables de ordenación o la palabra clave filtrada. */
   const { repositories, fetchMore } = useRepositories({
     // Cantidad de elementos por página.
-    first: 3,
+    first: 8,
     ordenarPor: orden.ordenarPor,
     direccion: orden.direccion,
     palabraClave: busquedaRetrasada
