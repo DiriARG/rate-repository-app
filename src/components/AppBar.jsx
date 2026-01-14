@@ -63,6 +63,10 @@ const AppBar = () => {
               <Text style={styles.pestaña}>Create a review</Text>
             </Link>
 
+            <Link to="/mis-reseñas" component={Pressable}>
+              <Text style={styles.pestaña}>My reviews</Text>
+            </Link>
+
             <Pressable onPress={cerrarSesion}>
               <Text style={styles.pestaña}>Sign out</Text>
             </Pressable>

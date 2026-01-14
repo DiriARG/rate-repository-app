@@ -8,6 +8,7 @@ import SignIn from "./SignIn";
 import Repositorio from "./Repositorio";
 import CrearReseña from "./CrearReseña";
 import Registro from "./Registro";
+import MisReseñas from "./MisReseñas";
 
 const estilos = StyleSheet.create({
   container: {
@@ -27,6 +28,7 @@ const Main = () => {
         <Route path="/repositorio/:id" element={<Repositorio />} />
         <Route path="/crear-reseña" element={<CrearReseña />} />
         <Route path="/registrarse" element={<Registro />} />
+        <Route path="/mis-reseñas" element={<MisReseñas />} />
 
         {/* Esta ruta se activará si el usuario intenta navegar a una ruta que no coincida con las rutas definidas previamente.
         Manda al usuario a la lista de repositorios; el "replace" reemplaza la ruta errónea al historial de navegación, evitando que al hacer click al botón de "atrás", regresar a la página que no existe. */}
