@@ -36,3 +36,9 @@ export const CREAR_USUARIO = gql`
     }
   }
 `;
+
+export const ELIMINAR_RESENIA = gql`
+  mutation EliminarResenia($id: ID!) {
+    deleteReview(id: $id)
+  }
+`;
