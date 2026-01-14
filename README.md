@@ -50,3 +50,11 @@ Para ejecutar el proyecto frontend, utiliza la versión **Node v22.18.0**.
 #### Resumen:
 - Ejecuta el **servidor backend** (rate-repository-api) en una terminal usando **Node v20.11.0**.
 - Ejecuta el **proyecto frontend** (rate-repository-app) en otra terminal usando **Node v22.18.0**.
+
+### Entorno de desarrollo móvil 📱:
+
+Para el desarrollo y las pruebas de la aplicación móvil se utilizó un **Google Pixel 3a** como dispositivo físico, ejecutando la app de Android **[Expo Go](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=es_AR&pli=1)**.  
+Esto permitió probar la aplicación en un entorno real durante el desarrollo, facilitando la validación del comportamiento, la navegación y la experiencia de usuario.
+
+## Certificado del curso 😁:
+<img src="./certificado-reactnative.png" alt="Certificado del curso sobre React Native">
